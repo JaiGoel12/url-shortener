@@ -8,13 +8,13 @@ function generateTokens(userId: string) {
   const accessToken = jwt.sign(
     { userId },
     process.env.JWT_SECRET!,
-    { expiresIn: process.env.JWT_EXPIRES_IN || '15m' }
+    { expiresIn: (process.env.JWT_EXPIRES_IN || '15m') as any }
   );
 
   const refreshToken = jwt.sign(
     { userId },
     process.env.JWT_REFRESH_SECRET!,
-    { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d' }
+    { expiresIn: (process.env.JWT_REFRESH_EXPIRES_IN || '7d') as any }
   );
 
   return { accessToken, refreshToken };

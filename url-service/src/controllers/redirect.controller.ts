@@ -25,7 +25,7 @@ export async function redirectToOriginal(req: Request, res: Response, next: Next
 
     const ip = req.ip || req.socket.remoteAddress || 'unknown';
     const userAgent = req.headers['user-agent'] || '';
-    const referrer = req.headers['referer'] || req.headers['referrer'] || '';
+    const referrer = (req.headers['referer'] || req.headers['referrer'] || '') as string;
 
     setImmediate(async () => {
       try {
