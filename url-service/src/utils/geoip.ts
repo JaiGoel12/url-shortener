@@ -14,7 +14,7 @@ export async function getGeoFromIP(ip: string): Promise<GeoData> {
       return { country: 'Unknown', city: 'Unknown' };
     }
 
-    const data = await response.json();
+    const data: any = await response.json();
     return {
       country: data.country || 'Unknown',
       city: data.city || 'Unknown',
