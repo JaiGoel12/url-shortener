@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import api from '../services/api';
 
 interface UrlItem {
   id: string;
@@ -14,13 +15,25 @@ interface UrlItem {
 interface Props {
   urls: UrlItem[];
   loading: boolean;
+  onDelete?: (id: string) => void;
 }
 
-export default function LinkTable({ urls, loading }: Props) {
+export default function LinkTable({ urls, loading, onDelete }: Props) {
   function copyToClipboard(shortCode: string) {
     const url = `${window.location.origin}/${shortCode}`;
     navigator.clipboard.writeText(url);
     toast.success('Copied to clipboard!');
+  }
+
+  async function handleDelete(id: string) {
+    if (!window.confirm('Are you sure you want to delete this link?')) return;
+    try {
+      await api.delete(`/urls/${id}`);
+      toast.success('Link deleted');
+      onDelete?.(id);
+    } catch {
+      toast.error('Failed to delete link');
+    }
   }
 
   if (loading) {
@@ -72,13 +85,19 @@ export default function LinkTable({ urls, loading }: Props) {
                   {url.isActive ? 'Active' : 'Inactive'}
                 </span>
               </td>
-              <td className="px-6 py-4 text-center">
+              <td className="px-6 py-4 text-center space-x-3">
                 <Link
                   to={`/links/${url.id}`}
                   className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
                 >
                   Analytics
                 </Link>
+                <button
+                  onClick={() => handleDelete(url.id)}
+                  className="text-sm text-red-600 hover:text-red-800 font-medium"
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}

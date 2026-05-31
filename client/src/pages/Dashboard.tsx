@@ -30,7 +30,7 @@ export default function Dashboard() {
     <div>
       <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
       <CreateLink onCreated={fetchUrls} />
-      <LinkTable urls={urls} loading={loading} />
+      <LinkTable urls={urls} loading={loading} onDelete={() => fetchUrls()} />
 
       {totalPages > 1 && (
         <div className="flex justify-center gap-2 mt-6">
