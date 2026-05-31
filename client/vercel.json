@@ -1,5 +1,9 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+    { "source": "/login", "destination": "/" },
+    { "source": "/register", "destination": "/" },
+    { "source": "/dashboard", "destination": "/" },
+    { "source": "/link/:path*", "destination": "/" },
+    { "source": "/:shortCode", "destination": "https://url-shortener-api-rriw.onrender.com/:shortCode" }
   ]
 }
