@@ -79,11 +79,18 @@ export default function LinkTable({ urls, loading, onDelete }: Props) {
                 <span className="font-semibold text-gray-900">{url.clickCount}</span>
               </td>
               <td className="px-6 py-4 text-center">
-                <span className={`inline-flex px-2 py-1 text-xs rounded-full font-medium ${
-                  url.isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                }`}>
-                  {url.isActive ? 'Active' : 'Inactive'}
-                </span>
+                {(() => {
+                  const isExpired = url.expiresAt && new Date(url.expiresAt) < new Date();
+                  const status = !url.isActive ? 'Inactive' : isExpired ? 'Expired' : 'Active';
+                  const color = status === 'Active' ? 'bg-green-100 text-green-700' 
+                    : status === 'Expired' ? 'bg-yellow-100 text-yellow-700' 
+                    : 'bg-red-100 text-red-700';
+                  return (
+                    <span className={`inline-flex px-2 py-1 text-xs rounded-full font-medium ${color}`}>
+                      {status}
+                    </span>
+                  );
+                })()}
               </td>
               <td className="px-6 py-4 text-center space-x-3">
                 <Link

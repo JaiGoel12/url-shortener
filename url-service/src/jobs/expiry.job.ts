@@ -3,7 +3,7 @@ import prisma from '../config/db';
 import redis from '../config/redis';
 
 export function startExpiryJob() {
-  cron.schedule('0 * * * *', async () => {
+  cron.schedule('* * * * *', async () => {
     console.log('[Cron] Running expired URL cleanup...');
 
     try {
@@ -39,5 +39,5 @@ export function startExpiryJob() {
     }
   });
 
-  console.log('[Cron] Expiry cleanup job scheduled (hourly).');
+  console.log('[Cron] Expiry cleanup job scheduled (every minute).');
 }

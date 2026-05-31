@@ -20,7 +20,7 @@ export default function CreateLink({ onCreated }: Props) {
       await api.post('/urls', {
         originalUrl,
         customAlias: customAlias || undefined,
-        expiresAt: expiresAt || undefined,
+        expiresAt: expiresAt ? new Date(expiresAt).toISOString() : undefined,
       });
       toast.success('Short URL created!');
       setOriginalUrl('');
