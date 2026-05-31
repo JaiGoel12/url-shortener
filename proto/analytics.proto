@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package analytics;
+
+service AnalyticsService {
+  rpc GetUrlAnalytics (GetAnalyticsRequest) returns (AnalyticsResponse);
+  rpc GetClicksByTimeRange (TimeRangeRequest) returns (ClicksResponse);
+  rpc GetTopCountries (TopCountriesRequest) returns (CountriesResponse);
+}
+
+message GetAnalyticsRequest {
+  string url_id = 1;
+}
+
+message AnalyticsResponse {
+  int64 total_clicks = 1;
+  repeated DailyCount clicks_per_day = 2;
+  repeated DeviceBreakdown devices = 3;
+  repeated BrowserBreakdown browsers = 4;
+  repeated GeoBreakdown countries = 5;
+}
+
+message DailyCount {
+  string date = 1;
+  int64 count = 2;
+}
+
+message DeviceBreakdown {
+  string device = 1;
+  int64 count = 2;
+}
+
+message BrowserBreakdown {
+  string browser = 1;
+  int64 count = 2;
+}
+
+message GeoBreakdown {
+  string country = 1;
+  string city = 2;
+  int64 count = 3;
+}
+
+message TimeRangeRequest {
+  string url_id = 1;
+  string start_date = 2;
+  string end_date = 3;
+  int32 limit = 4;
+}
+
+message ClicksResponse {
+  repeated ClickEvent clicks = 1;
+}
+
+message ClickEvent {
+  string id = 1;
+  string ip = 2;
+  string country = 3;
+  string city = 4;
+  string device = 5;
+  string browser = 6;
+  string referrer = 7;
+  string clicked_at = 8;
+}
+
+message TopCountriesRequest {
+  string url_id = 1;
+  int32 limit = 2;
+}
+
+message CountriesResponse {
+  repeated GeoBreakdown countries = 1;
+}
