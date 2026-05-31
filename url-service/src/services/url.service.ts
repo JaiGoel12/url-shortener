@@ -152,14 +152,13 @@ export class UrlService {
       throw new AppError('URL not found', 404);
     }
 
-    await prisma.url.update({
+    await prisma.url.delete({
       where: { id },
-      data: { isActive: false },
     });
 
     await CacheService.invalidateUrl(url.shortCode);
 
-    return { message: 'URL deactivated successfully' };
+    return { message: 'URL deleted successfully' };
   }
 
   static async incrementClickCount(urlId: string) {
